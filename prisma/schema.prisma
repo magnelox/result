@@ -1,0 +1,178 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Programme {
+  id         String    @id @default(uuid())
+  code       String    @unique
+  name       String
+  department String
+  status     String    @default("ACTIVE") // ACTIVE, INACTIVE
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+
+  courses       Course[]
+  students      Student[]
+  resultBatches ResultBatch[]
+}
+
+model Course {
+  id          String   @id @default(uuid())
+  code        String   @unique
+  title       String
+  credits     Float
+  programmeId String
+  semester    String
+  status      String   @default("ACTIVE")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  programme     Programme      @relation(fields: [programmeId], references: [id])
+  courseResults CourseResult[]
+}
+
+model Student {
+  id          String   @id @default(uuid())
+  regNumber   String   @unique
+  rollNumber  String   @unique
+  name        String
+  dob         String   // YYYY-MM-DD format
+  programmeId String
+  batch       String
+  status      String   @default("ACTIVE")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  programme       Programme        @relation(fields: [programmeId], references: [id])
+  semesterResults SemesterResult[]
+  gradeCards      GradeCard[]
+
+  @@index([regNumber, dob, programmeId])
+}
+
+model ResultBatch {
+  id                 String   @id @default(uuid())
+  programmeId        String
+  semester           String
+  batch              String
+  academicSession    String
+  examinationSession String
+  examinationType    String   @default("REGULAR")
+  viewType           String   @default("GRADE_CARD") // MARKS or GRADE_CARD
+  sourceFile         String
+  status             String   @default("DRAFT") // DRAFT, VALIDATED, PUBLISHED, UNPUBLISHED, ARCHIVED
+  uploadedBy         String
+  createdAt          DateTime @default(now())
+  publishedAt        DateTime?
+
+  programme       Programme        @relation(fields: [programmeId], references: [id])
+  semesterResults SemesterResult[]
+}
+
+model SemesterResult {
+  id              String   @id @default(uuid())
+  studentId       String
+  resultBatchId   String?
+  semester        String
+  academicSession String
+  examSession     String
+  examType        String   @default("REGULAR")
+  viewType        String   @default("GRADE_CARD") // MARKS or GRADE_CARD
+  sgpa            Float
+  resultStatus    String   // PASS, FAIL, PROMOTED
+  declarationDate String
+  status          String   @default("DRAFT") // DRAFT, VALIDATED, READY, PUBLISHED, UNPUBLISHED
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  student       Student        @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  resultBatch   ResultBatch?   @relation(fields: [resultBatchId], references: [id], onDelete: SetNull)
+  courseResults CourseResult[]
+  gradeCards    GradeCard[]
+
+  @@unique([studentId, semester, academicSession])
+  @@index([status])
+  @@index([studentId, status])
+}
+
+model CourseResult {
+  id               String  @id @default(uuid())
+  semesterResultId String
+  courseId         String
+  
+  // Marks-oriented fields
+  internalMarks    Float?
+  externalMarks    Float?
+  totalMarks       Float?
+  remarks          String?
+
+  // Grade-card fields
+  assignmentGrade  String  @default("A")
+  endTermGrade     String  @default("A")
+  finalGrade       String  @default("A")
+  gradePoint       Float   @default(8.0)
+  status           String  // PASS, FAIL, AB, NS, IA, RW
+
+  semesterResult SemesterResult @relation(fields: [semesterResultId], references: [id], onDelete: Cascade)
+  course         Course         @relation(fields: [courseId], references: [id])
+}
+
+model GradeCard {
+  id               String   @id @default(uuid())
+  studentId        String
+  semesterResultId String   @unique
+  pdfPath          String
+  generatedAt      DateTime @default(now())
+
+  student        Student        @relation(fields: [studentId], references: [id])
+  semesterResult SemesterResult @relation(fields: [semesterResultId], references: [id], onDelete: Cascade)
+}
+
+model ResultImport {
+  id         String   @id @default(uuid())
+  filename   String
+  totalRows  Int
+  validRows  Int
+  errorCount Int
+  status     String   @default("DRAFT") // DRAFT, PUBLISHED
+  importedBy String
+  createdAt  DateTime @default(now())
+}
+
+model GradeScale {
+  id           String   @id @default(uuid())
+  symbol       String   @unique
+  minimumValue Float
+  maximumValue Float
+  meaning      String
+  status       String   @default("ACTIVE")
+}
+
+model AdminUser {
+  id           String   @id @default(uuid())
+  email        String   @unique
+  passwordHash String
+  name         String
+  role         String   @default("ADMIN")
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  auditLogs AuditLog[]
+}
+
+model AuditLog {
+  id        String   @id @default(uuid())
+  adminId   String?
+  action    String
+  resource  String
+  details   String
+  ipAddress String?
+  createdAt DateTime @default(now())
+
+  admin AdminUser? @relation(fields: [adminId], references: [id])
+}
