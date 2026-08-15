@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 import { Lock, Mail, ShieldAlert, Loader2 } from 'lucide-react';
 
 export default function AdminLoginPage() {
@@ -42,16 +43,25 @@ export default function AdminLoginPage() {
   return (
     <div className="min-h-screen bg-slate-900 flex items-center justify-center p-4">
       <div className="max-w-md w-full bg-white rounded-2xl shadow-2xl overflow-hidden border border-slate-700">
-        <div className="bg-ssu-navy p-8 text-center border-b-4 border-ssu-gold">
-          <div className="w-14 h-14 rounded-full bg-white text-ssu-navy font-serif font-bold text-2xl mx-auto flex items-center justify-center border-2 border-ssu-gold shadow-md mb-3">
-            SSU
+        <div className="bg-ssu-navy p-8 text-center border-b-4 border-ssu-gold space-y-3">
+          <div className="flex justify-center my-2">
+            <Image
+              src="/assets/ssu-logo.png"
+              alt="Sri Sri University Logo"
+              width={200}
+              height={70}
+              className="object-contain w-[180px] h-auto brightness-0 invert"
+              priority
+            />
           </div>
-          <h1 className="font-serif font-bold text-xl text-white tracking-wide">
-            SRI SRI UNIVERSITY
-          </h1>
-          <p className="text-xs text-ssu-gold font-sans font-semibold uppercase tracking-wider mt-1">
-            Result Administration Portal
-          </p>
+          <div>
+            <h1 className="font-serif font-bold text-lg text-white tracking-wide">
+              SSU ODL
+            </h1>
+            <p className="text-xs text-ssu-gold font-sans font-semibold uppercase tracking-wider mt-0.5">
+              Result Administration
+            </p>
+          </div>
         </div>
 
         <form onSubmit={handleSubmit} className="p-8 space-y-5">
@@ -113,7 +123,7 @@ export default function AdminLoginPage() {
         </form>
 
         <div className="bg-slate-50 p-4 border-t border-slate-200 text-center text-xs text-slate-500">
-          Authorized Examination Personnel Only
+          Authorized ODL Examination Personnel Only
         </div>
       </div>
     </div>

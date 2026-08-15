@@ -1,11 +1,12 @@
 import React from 'react';
 import { redirect } from 'next/navigation';
+import Image from 'next/image';
 import { getStudentSession } from '@/lib/student-auth';
 import { db } from '@/lib/db';
 import { StudentInfo } from '@/components/StudentInfo';
 import { ResultSummary } from '@/components/ResultSummary';
 import { GradeSheetButton } from '@/components/GradeSheetButton';
-import { CheckCircle2, FileText, LogOut } from 'lucide-react';
+import { CheckCircle2, LogOut } from 'lucide-react';
 import Link from 'next/link';
 
 export default async function AuthenticatedStudentResultPage() {
@@ -74,23 +75,36 @@ export default async function AuthenticatedStudentResultPage() {
         </form>
       </div>
 
-      {/* Header Banner */}
-      <div className="bg-white rounded-xl border border-slate-200 p-6 shadow-sm flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-        <div>
-          <span className="text-xs font-bold uppercase tracking-wider text-ssu-gold">
-            SRI SRI UNIVERSITY — ODL PORTAL
-          </span>
-          <h2 className="text-2xl font-serif font-bold text-ssu-navy mt-0.5">
-            Semester Examination Grade Card
-          </h2>
-          <p className="text-xs text-slate-500 font-sans">
-            Official Published Academic Record for Session {semResult.academicSession}
-          </p>
+      {/* Official SSU Grade Card Header Banner */}
+      <div className="bg-white rounded-xl border border-slate-200 p-6 shadow-sm flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+          <div className="relative w-44 sm:w-52 h-14 shrink-0">
+            <Image
+              src="/assets/ssu-logo.png"
+              alt="Sri Sri University Logo"
+              width={208}
+              height={72}
+              className="object-contain w-full h-full"
+              priority
+            />
+          </div>
+
+          <div className="sm:border-l sm:border-slate-200 sm:pl-4">
+            <span className="text-xs font-bold uppercase tracking-wider text-ssu-gold">
+              SRI SRI UNIVERSITY
+            </span>
+            <h2 className="text-xl sm:text-2xl font-serif font-bold text-ssu-navy mt-0.5">
+              ODL — SEMESTER GRADE CARD
+            </h2>
+            <p className="text-xs text-slate-500 font-sans">
+              Published Academic Record for Session {semResult.academicSession}
+            </p>
+          </div>
         </div>
 
-        <div className="flex items-center gap-2 bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-semibold px-3 py-1.5 rounded-full">
+        <div className="flex items-center gap-2 bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-semibold px-3.5 py-2 rounded-full shrink-0">
           <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-          PUBLISHED RESULT
+          OFFICIAL PUBLISHED RESULT
         </div>
       </div>
 

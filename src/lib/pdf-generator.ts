@@ -33,7 +33,7 @@ export interface GradeCardPdfData {
 }
 
 /**
- * Generates an official SSU Grade Card PDF using PDFKit
+ * Generates an official SSU ODL Grade Card PDF using PDFKit
  * Saved to storage/grade-cards/<filename>.pdf
  */
 export async function generateGradeCardPdf(
@@ -55,19 +55,24 @@ export async function generateGradeCardPdf(
       const writeStream = fs.createWriteStream(outputPath);
       doc.pipe(writeStream);
 
-      const navy = '#002147';
-      const darkGray = '#222222';
-      const borderGray = '#CCCCCC';
-      const lightBg = '#F8F9FA';
+      const navy = '#0B1F3A';
+      const darkGray = '#172033';
+      const borderGray = '#D9E1EC';
+      const lightBg = '#F7F9FC';
 
-      // --- HEADER ---
-      doc
-        .fillColor(navy)
-        .fontSize(20)
-        .font('Helvetica-Bold')
-        .text('SRI SRI UNIVERSITY', { align: 'center' });
+      // --- OFFICIAL SSU LOGO EMBED ---
+      const logoPath = path.join(process.cwd(), 'public', 'assets', 'ssu-logo.png');
+      if (fs.existsSync(logoPath)) {
+        doc.image(logoPath, 200, 30, { width: 195 });
+        doc.y = 90;
+      } else {
+        doc
+          .fillColor(navy)
+          .fontSize(20)
+          .font('Helvetica-Bold')
+          .text('SRI SRI UNIVERSITY', { align: 'center' });
+      }
 
-      doc.moveDown(0.2);
       doc
         .fillColor('#555555')
         .fontSize(9)
@@ -78,11 +83,11 @@ export async function generateGradeCardPdf(
       doc.moveDown(0.4);
       doc
         .fillColor(navy)
-        .fontSize(14)
+        .fontSize(13)
         .font('Helvetica-Bold')
         .text('SEMESTER GRADE CARD', { align: 'center' });
 
-      doc.moveDown(0.6);
+      doc.moveDown(0.5);
 
       // Outer Box around Student Info Grid
       const infoTop = doc.y;
@@ -95,7 +100,7 @@ export async function generateGradeCardPdf(
         .strokeColor(borderGray)
         .stroke();
 
-      doc.fontSize(9).fillColor(darkGray);
+      doc.fontSize(8.5).fillColor(darkGray);
 
       const col1X = 46;
       const col2X = 310;
@@ -133,16 +138,16 @@ export async function generateGradeCardPdf(
       doc.font('Helvetica-Bold').text('Batch:', col2X, yPos);
       doc.font('Helvetica').text(data.batch, col2X + 85, yPos);
 
-      doc.y = infoTop + infoBoxHeight + 15;
+      doc.y = infoTop + infoBoxHeight + 12;
 
       // Semester Heading
       doc
         .fillColor(navy)
-        .fontSize(11)
+        .fontSize(10.5)
         .font('Helvetica-Bold')
         .text(`SEMESTER – ${data.semester.toUpperCase()}`, { align: 'left' });
 
-      doc.moveDown(0.4);
+      doc.moveDown(0.3);
 
       // --- COURSE TABLE ---
       const tableTop = doc.y;
@@ -171,22 +176,22 @@ export async function generateGradeCardPdf(
             { name: 'Grade Pt', width: 45, align: 'center' },
           ];
 
-      doc.rect(36, tableTop, tableWidth, 22).fillColor(lightBg).fill();
-      doc.rect(36, tableTop, tableWidth, 22).strokeColor(navy).lineWidth(1).stroke();
+      doc.rect(36, tableTop, tableWidth, 20).fillColor(lightBg).fill();
+      doc.rect(36, tableTop, tableWidth, 20).strokeColor(navy).lineWidth(1).stroke();
 
       let currentX = 36;
-      doc.fillColor(navy).fontSize(8.5).font('Helvetica-Bold');
+      doc.fillColor(navy).fontSize(8).font('Helvetica-Bold');
 
       cols.forEach((col) => {
-        doc.text(col.name, currentX + 3, tableTop + 6, {
+        doc.text(col.name, currentX + 3, tableTop + 5, {
           width: col.width - 6,
           align: col.align as any,
         });
         currentX += col.width;
       });
 
-      let rowY = tableTop + 22;
-      const tableRowHeight = 20;
+      let rowY = tableTop + 20;
+      const tableRowHeight = 18;
 
       data.courses.forEach((c, idx) => {
         if (idx % 2 === 1) {
@@ -199,89 +204,89 @@ export async function generateGradeCardPdf(
           .lineWidth(0.5)
           .stroke();
 
-        doc.fillColor(darkGray).fontSize(8.5).font('Helvetica');
+        doc.fillColor(darkGray).fontSize(8).font('Helvetica');
 
         let cx = 36;
         if (isMarks) {
-          doc.text(c.code, cx + 3, rowY + 5, { width: cols[0].width - 6, align: 'left' }); cx += cols[0].width;
-          doc.text(c.title, cx + 3, rowY + 5, { width: cols[1].width - 6, align: 'left', lineBreak: false }); cx += cols[1].width;
-          doc.text(c.credits.toFixed(1), cx + 3, rowY + 5, { width: cols[2].width - 6, align: 'center' }); cx += cols[2].width;
-          doc.text(c.internalMarks !== undefined ? String(c.internalMarks) : '—', cx + 3, rowY + 5, { width: cols[3].width - 6, align: 'center' }); cx += cols[3].width;
-          doc.text(c.externalMarks !== undefined ? String(c.externalMarks) : '—', cx + 3, rowY + 5, { width: cols[4].width - 6, align: 'center' }); cx += cols[4].width;
-          doc.text(c.totalMarks !== undefined ? String(c.totalMarks) : '—', cx + 3, rowY + 5, { width: cols[5].width - 6, align: 'center' }); cx += cols[5].width;
-          doc.font('Helvetica-Bold').text(c.finalGrade, cx + 3, rowY + 5, { width: cols[6].width - 6, align: 'center' }); cx += cols[6].width;
-          doc.font('Helvetica').text(c.gradePoint.toFixed(1), cx + 3, rowY + 5, { width: cols[7].width - 6, align: 'center' });
+          doc.text(c.code, cx + 3, rowY + 4, { width: cols[0].width - 6, align: 'left' }); cx += cols[0].width;
+          doc.text(c.title, cx + 3, rowY + 4, { width: cols[1].width - 6, align: 'left', lineBreak: false }); cx += cols[1].width;
+          doc.text(c.credits.toFixed(1), cx + 3, rowY + 4, { width: cols[2].width - 6, align: 'center' }); cx += cols[2].width;
+          doc.text(c.internalMarks !== undefined ? String(c.internalMarks) : '—', cx + 3, rowY + 4, { width: cols[3].width - 6, align: 'center' }); cx += cols[3].width;
+          doc.text(c.externalMarks !== undefined ? String(c.externalMarks) : '—', cx + 3, rowY + 4, { width: cols[4].width - 6, align: 'center' }); cx += cols[4].width;
+          doc.text(c.totalMarks !== undefined ? String(c.totalMarks) : '—', cx + 3, rowY + 4, { width: cols[5].width - 6, align: 'center' }); cx += cols[5].width;
+          doc.font('Helvetica-Bold').text(c.finalGrade, cx + 3, rowY + 4, { width: cols[6].width - 6, align: 'center' }); cx += cols[6].width;
+          doc.font('Helvetica').text(c.gradePoint.toFixed(1), cx + 3, rowY + 4, { width: cols[7].width - 6, align: 'center' });
         } else {
-          doc.text(c.code, cx + 3, rowY + 5, { width: cols[0].width - 6, align: 'left' }); cx += cols[0].width;
-          doc.text(c.title, cx + 3, rowY + 5, { width: cols[1].width - 6, align: 'left', lineBreak: false }); cx += cols[1].width;
-          doc.text(c.credits.toFixed(1), cx + 3, rowY + 5, { width: cols[2].width - 6, align: 'center' }); cx += cols[2].width;
-          doc.text(c.assignmentGrade || 'A', cx + 3, rowY + 5, { width: cols[3].width - 6, align: 'center' }); cx += cols[3].width;
-          doc.text(c.endTermGrade || 'A', cx + 3, rowY + 5, { width: cols[4].width - 6, align: 'center' }); cx += cols[4].width;
-          doc.font('Helvetica-Bold').text(c.finalGrade, cx + 3, rowY + 5, { width: cols[5].width - 6, align: 'center' }); cx += cols[5].width;
-          doc.font('Helvetica').text(c.gradePoint.toFixed(1), cx + 3, rowY + 5, { width: cols[6].width - 6, align: 'center' });
+          doc.text(c.code, cx + 3, rowY + 4, { width: cols[0].width - 6, align: 'left' }); cx += cols[0].width;
+          doc.text(c.title, cx + 3, rowY + 4, { width: cols[1].width - 6, align: 'left', lineBreak: false }); cx += cols[1].width;
+          doc.text(c.credits.toFixed(1), cx + 3, rowY + 4, { width: cols[2].width - 6, align: 'center' }); cx += cols[2].width;
+          doc.text(c.assignmentGrade || 'A', cx + 3, rowY + 4, { width: cols[3].width - 6, align: 'center' }); cx += cols[3].width;
+          doc.text(c.endTermGrade || 'A', cx + 3, rowY + 4, { width: cols[4].width - 6, align: 'center' }); cx += cols[4].width;
+          doc.font('Helvetica-Bold').text(c.finalGrade, cx + 3, rowY + 4, { width: cols[5].width - 6, align: 'center' }); cx += cols[5].width;
+          doc.font('Helvetica').text(c.gradePoint.toFixed(1), cx + 3, rowY + 4, { width: cols[6].width - 6, align: 'center' });
         }
 
         rowY += tableRowHeight;
       });
 
-      doc.y = rowY + 12;
+      doc.y = rowY + 10;
 
       // --- RESULT SUMMARY BOX ---
       const summaryTop = doc.y;
-      const summaryHeight = 35;
+      const summaryHeight = 32;
 
       doc.rect(36, summaryTop, tableWidth, summaryHeight).fillColor('#F4F6F9').fill();
       doc.rect(36, summaryTop, tableWidth, summaryHeight).strokeColor(navy).lineWidth(1).stroke();
 
-      doc.fillColor(navy).fontSize(11).font('Helvetica-Bold');
-      doc.text(`SGPA :  ${data.sgpa.toFixed(2)}`, 50, summaryTop + 11);
+      doc.fillColor(navy).fontSize(10.5).font('Helvetica-Bold');
+      doc.text(`SGPA :  ${data.sgpa.toFixed(2)}`, 50, summaryTop + 10);
 
       const isPass = data.resultStatus.toUpperCase() === 'PASS';
-      const statusColor = isPass ? '#15803D' : '#B91C1C';
+      const statusColor = isPass ? '#16803C' : '#C62828';
 
-      doc.fillColor(darkGray).fontSize(11).font('Helvetica-Bold');
-      doc.text('Semester Result: ', 320, summaryTop + 11);
-      doc.fillColor(statusColor).text(data.resultStatus.toUpperCase(), 415, summaryTop + 11);
+      doc.fillColor(darkGray).fontSize(10.5).font('Helvetica-Bold');
+      doc.text('Semester Result: ', 320, summaryTop + 10);
+      doc.fillColor(statusColor).text(data.resultStatus.toUpperCase(), 415, summaryTop + 10);
 
-      doc.y = summaryTop + summaryHeight + 15;
+      doc.y = summaryTop + summaryHeight + 12;
 
       // Result Declaration Date
       doc
         .fillColor(darkGray)
-        .fontSize(9)
+        .fontSize(8.5)
         .font('Helvetica-Bold')
         .text(`Result Declaration Date: `, 36, doc.y, { continued: true })
         .font('Helvetica')
         .text(data.declarationDate);
 
-      doc.moveDown(0.8);
+      doc.moveDown(0.6);
 
       // --- GRADE SCALE REFERENCE & NOTE ---
-      doc.fillColor(navy).fontSize(9).font('Helvetica-Bold').text('GRADE SCALE REFERENCE');
+      doc.fillColor(navy).fontSize(8.5).font('Helvetica-Bold').text('GRADE SCALE REFERENCE');
       doc.moveDown(0.2);
 
       const scaleTop = doc.y;
       const scaleBoxWidth = tableWidth;
-      const scaleBoxHeight = 45;
+      const scaleBoxHeight = 42;
 
       doc.rect(36, scaleTop, scaleBoxWidth, scaleBoxHeight).strokeColor(borderGray).lineWidth(0.5).stroke();
-      doc.fontSize(7.5).fillColor(darkGray);
+      doc.fontSize(7).fillColor(darkGray);
 
-      doc.font('Helvetica-Bold').text('Marks / Point Range:', 42, scaleTop + 6);
-      doc.font('Helvetica').text('9.00-10.00  |  8.00<9.00  |  7.00<8.00  |  6.00<7.00  |  5.50<6.00  |  5.00<5.50  |  4.00<5.00  |  <4.00', 145, scaleTop + 6);
+      doc.font('Helvetica-Bold').text('Marks / Point Range:', 42, scaleTop + 5);
+      doc.font('Helvetica').text('9.00-10.00  |  8.00<9.00  |  7.00<8.00  |  6.00<7.00  |  5.50<6.00  |  5.00<5.50  |  4.00<5.00  |  <4.00', 145, scaleTop + 5);
 
-      doc.font('Helvetica-Bold').text('Grade Symbol:', 42, scaleTop + 18);
-      doc.font('Helvetica-Bold').text('     O              A+            A            B+            B            C            D           F', 145, scaleTop + 18);
+      doc.font('Helvetica-Bold').text('Grade Symbol:', 42, scaleTop + 16);
+      doc.font('Helvetica-Bold').text('     O              A+            A            B+            B            C            D           F', 145, scaleTop + 16);
 
-      doc.font('Helvetica-Bold').text('Special Statuses:', 42, scaleTop + 30);
-      doc.font('Helvetica').text('AB: Absent  |  NS: Not Submitted  |  IA: Incomplete Assessment  |  RW: Result Withheld', 145, scaleTop + 30);
+      doc.font('Helvetica-Bold').text('Special Statuses:', 42, scaleTop + 27);
+      doc.font('Helvetica').text('AB: Absent  |  NS: Not Submitted  |  IA: Incomplete Assessment  |  RW: Result Withheld', 145, scaleTop + 27);
 
-      doc.y = scaleTop + scaleBoxHeight + 12;
+      doc.y = scaleTop + scaleBoxHeight + 10;
 
       // Official Disclaimer
       doc
         .fillColor('#666666')
-        .fontSize(7.5)
+        .fontSize(7)
         .font('Helvetica-Oblique')
         .text(
           'Note: This Grade Card is issued by Sri Sri University ODL Examination Authority. SGPA indicates Semester Grade Point Average. Official transcripts may be requested directly from the University Controller of Examinations office.',

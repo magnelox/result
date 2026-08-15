@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import {
   LayoutDashboard,
@@ -28,13 +29,20 @@ export function AdminSidebar() {
 
   return (
     <aside className="w-64 bg-ssu-navy text-white min-h-screen flex flex-col border-r border-ssu-gold/30 shrink-0">
-      <div className="p-6 border-b border-ssu-navy-light flex items-center gap-3">
-        <div className="w-9 h-9 rounded-full bg-white text-ssu-navy font-serif font-bold text-sm flex items-center justify-center border border-ssu-gold">
-          SSU
+      <div className="p-5 border-b border-ssu-navy-light space-y-2">
+        <div className="relative w-36 h-10 flex items-center">
+          <Image
+            src="/assets/ssu-logo.png"
+            alt="Sri Sri University Logo"
+            width={144}
+            height={50}
+            className="object-contain w-auto h-full brightness-0 invert"
+            priority
+          />
         </div>
         <div>
-          <h2 className="font-serif font-bold text-sm tracking-wide text-white">SSU ADMIN</h2>
-          <p className="text-[10px] text-ssu-gold uppercase tracking-wider font-semibold">Result Control Panel</p>
+          <h2 className="font-serif font-bold text-sm tracking-wide text-white">SSU ODL</h2>
+          <p className="text-[10px] text-ssu-gold uppercase tracking-wider font-semibold">Result Administration</p>
         </div>
       </div>
 
@@ -60,7 +68,7 @@ export function AdminSidebar() {
       </nav>
 
       <div className="p-4 border-t border-ssu-navy-light text-xs text-slate-400 text-center">
-        Sri Sri University Result Admin v1.0
+        Sri Sri University ODL Portal v2.0
       </div>
     </aside>
   );
