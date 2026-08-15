@@ -23,12 +23,14 @@ async function main() {
   });
   console.log(`✅ Admin user ready: ${admin.email}`);
 
-  // 2. Create Programmes
+  // 2. Create Official SSU ODL Programmes
   const programmesData = [
-    { code: 'MBA', name: 'Master of Business Administration', department: 'Faculty of Management Studies' },
-    { code: 'BTECH-CSE', name: 'B.Tech in Computer Science & Engineering', department: 'Faculty of Emerging Technologies' },
-    { code: 'BBA', name: 'Bachelor of Business Administration', department: 'Faculty of Management Studies' },
-    { code: 'MSC-DS', name: 'M.Sc. Data Science', department: 'Faculty of Science' },
+    { code: 'MBA', name: 'Master of Business Administration (MBA)', department: 'Faculty of Management Studies' },
+    { code: 'B.COM', name: 'Bachelor of Commerce (B.Com)', department: 'Faculty of Commerce' },
+    { code: 'BBA', name: 'Bachelor of Business Administration (BBA)', department: 'Faculty of Management Studies' },
+    { code: 'MA-YOGA', name: 'Master of Arts (Yoga)', department: 'Faculty of Yogic Science & Human Excellence' },
+    { code: 'MA-HS', name: 'Master of Arts (Hindu Studies)', department: 'Faculty of Indic Studies' },
+    { code: 'MPA', name: 'Master of Performing Arts', department: 'Faculty of Performing Arts' },
   ];
 
   const programmesMap = new Map<string, any>();
@@ -52,16 +54,23 @@ async function main() {
     { code: 'MBA104', title: 'Marketing Management', credits: 4.0, progCode: 'MBA', semester: 'I' },
     { code: 'MBA105', title: 'Business Statistics & Analytics', credits: 3.0, progCode: 'MBA', semester: 'I' },
 
-    // BTECH-CSE Courses
-    { code: 'CSE101', title: 'Data Structures & Algorithms', credits: 4.0, progCode: 'BTECH-CSE', semester: 'I' },
-    { code: 'CSE102', title: 'Computer System Architecture', credits: 4.0, progCode: 'BTECH-CSE', semester: 'I' },
-    { code: 'CSE103', title: 'Discrete Mathematics', credits: 3.0, progCode: 'BTECH-CSE', semester: 'I' },
-    { code: 'CSE104', title: 'Object Oriented Programming with C++', credits: 4.0, progCode: 'BTECH-CSE', semester: 'I' },
+    // B.COM Courses
+    { code: 'BCOM101', title: 'Financial Accounting', credits: 4.0, progCode: 'B.COM', semester: 'I' },
+    { code: 'BCOM102', title: 'Business Law', credits: 4.0, progCode: 'B.COM', semester: 'I' },
 
     // BBA Courses
     { code: 'BBA101', title: 'Principles of Microeconomics', credits: 3.0, progCode: 'BBA', semester: 'I' },
     { code: 'BBA102', title: 'Business Communication Skills', credits: 3.0, progCode: 'BBA', semester: 'I' },
     { code: 'BBA103', title: 'Fundamentals of Accounting', credits: 4.0, progCode: 'BBA', semester: 'I' },
+
+    // MA YOGA Courses
+    { code: 'YOG101', title: 'Fundamentals of Yoga & Philosophy', credits: 4.0, progCode: 'MA-YOGA', semester: 'I' },
+    
+    // MA HINDU STUDIES Courses
+    { code: 'HS101', title: 'Foundations of Hindu Studies', credits: 4.0, progCode: 'MA-HS', semester: 'I' },
+
+    // MPA Courses
+    { code: 'MPA101', title: 'Theory of Performing Arts', credits: 4.0, progCode: 'MPA', semester: 'I' },
   ];
 
   const coursesMap = new Map<string, any>();
@@ -118,11 +127,11 @@ async function main() {
       rollNumber: 'SSU/2026/MBA/001',
       dob: '2002-05-14',
       progCode: 'MBA',
-      batch: '2026-2028',
+      batch: 'August 2025',
       semester: 'I',
-      academicSession: '2026-2027',
-      examSession: 'July 2026',
-      declarationDate: '10 August 2026',
+      academicSession: '2025-2026',
+      examSession: 'January 2026',
+      declarationDate: '10 February 2026',
       courses: [
         { code: 'MBA101', title: 'Management Principles & Organizational Behavior', credits: 4.0, assg: 'O', end: 'A+', final: 'O', gp: 10.0, status: 'PASS' },
         { code: 'MBA102', title: 'Managerial Economics', credits: 4.0, assg: 'A+', end: 'A', final: 'A+', gp: 9.0, status: 'PASS' },
@@ -135,43 +144,38 @@ async function main() {
     },
     {
       name: 'Ananya Pattnaik',
-      regNumber: '2026MBA002',
-      rollNumber: 'SSU/2026/MBA/002',
-      dob: '2001-11-22',
-      progCode: 'MBA',
-      batch: '2026-2028',
+      regNumber: '2026BBA001',
+      rollNumber: 'SSU/2026/BBA/001',
+      dob: '2003-11-22',
+      progCode: 'BBA',
+      batch: 'August 2025',
       semester: 'I',
-      academicSession: '2026-2027',
-      examSession: 'July 2026',
-      declarationDate: '10 August 2026',
+      academicSession: '2025-2026',
+      examSession: 'January 2026',
+      declarationDate: '10 February 2026',
       courses: [
-        { code: 'MBA101', title: 'Management Principles & Organizational Behavior', credits: 4.0, assg: 'A+', end: 'A', final: 'A+', gp: 9.0, status: 'PASS' },
-        { code: 'MBA102', title: 'Managerial Economics', credits: 4.0, assg: 'A', end: 'B+', final: 'A', gp: 8.0, status: 'PASS' },
-        { code: 'MBA103', title: 'Financial Accounting for Managers', credits: 4.0, assg: 'A+', end: 'A+', final: 'A+', gp: 9.0, status: 'PASS' },
-        { code: 'MBA104', title: 'Marketing Management', credits: 4.0, assg: 'O', end: 'A+', final: 'O', gp: 10.0, status: 'PASS' },
-        { code: 'MBA105', title: 'Business Statistics & Analytics', credits: 3.0, assg: 'B+', end: 'A', final: 'A', gp: 8.0, status: 'PASS' },
+        { code: 'BBA101', title: 'Principles of Microeconomics', credits: 3.0, assg: 'A+', end: 'A', final: 'A+', gp: 9.0, status: 'PASS' },
+        { code: 'BBA102', title: 'Business Communication Skills', credits: 3.0, assg: 'A', end: 'B+', final: 'A', gp: 8.0, status: 'PASS' },
+        { code: 'BBA103', title: 'Fundamentals of Accounting', credits: 4.0, assg: 'A+', end: 'A+', final: 'A+', gp: 9.0, status: 'PASS' },
       ],
-      sgpa: 8.84,
+      sgpa: 8.70,
       resultStatus: 'PASS',
     },
     {
       name: 'Rohan Das',
-      regNumber: '2026CSE001',
-      rollNumber: 'SSU/2026/CSE/001',
-      dob: '2003-08-10',
-      progCode: 'BTECH-CSE',
-      batch: '2026-2030',
+      regNumber: '2026YOGA001',
+      rollNumber: 'SSU/2026/YOG/001',
+      dob: '2001-08-10',
+      progCode: 'MA-YOGA',
+      batch: 'August 2025',
       semester: 'I',
-      academicSession: '2026-2027',
-      examSession: 'July 2026',
-      declarationDate: '10 August 2026',
+      academicSession: '2025-2026',
+      examSession: 'January 2026',
+      declarationDate: '10 February 2026',
       courses: [
-        { code: 'CSE101', title: 'Data Structures & Algorithms', credits: 4.0, assg: 'O', end: 'O', final: 'O', gp: 10.0, status: 'PASS' },
-        { code: 'CSE102', title: 'Computer System Architecture', credits: 4.0, assg: 'A+', end: 'A+', final: 'A+', gp: 9.0, status: 'PASS' },
-        { code: 'CSE103', title: 'Discrete Mathematics', credits: 3.0, assg: 'A', end: 'A+', final: 'A+', gp: 9.0, status: 'PASS' },
-        { code: 'CSE104', title: 'Object Oriented Programming with C++', credits: 4.0, assg: 'O', end: 'A+', final: 'O', gp: 10.0, status: 'PASS' },
+        { code: 'YOG101', title: 'Fundamentals of Yoga & Philosophy', credits: 4.0, assg: 'O', end: 'O', final: 'O', gp: 10.0, status: 'PASS' },
       ],
-      sgpa: 9.53,
+      sgpa: 10.0,
       resultStatus: 'PASS',
     },
   ];
@@ -199,7 +203,6 @@ async function main() {
       },
     });
 
-    // Delete existing semester result if present for clean re-seed
     await prisma.semesterResult.deleteMany({
       where: {
         studentId: student.id,
@@ -219,7 +222,7 @@ async function main() {
         sgpa: stuData.sgpa,
         resultStatus: stuData.resultStatus,
         declarationDate: stuData.declarationDate,
-        status: 'PUBLISHED', // Seed data published for instant testing
+        status: 'PUBLISHED',
         courseResults: {
           create: stuData.courses.map((c) => {
             const courseObj = coursesMap.get(c.code);
@@ -236,7 +239,6 @@ async function main() {
       },
     });
 
-    // Generate static Grade Card PDF
     const pdfFileName = `${student.regNumber}_Sem_${stuData.semester}.pdf`;
     const pdfPath = path.join(storageDir, pdfFileName);
 
@@ -282,13 +284,12 @@ async function main() {
     console.log(`✅ Seeded student ${student.name} (${student.regNumber}) with pre-generated PDF`);
   }
 
-  // 6. Create Initial Audit Log
   await prisma.auditLog.create({
     data: {
       adminId: admin.id,
       action: 'SYSTEM_SEED',
       resource: 'DATABASE',
-      details: 'Initial database seed with programmes, courses, grade scales, admin, and test results',
+      details: 'Updated database seed with official SSU ODL programmes',
     },
   });
 
