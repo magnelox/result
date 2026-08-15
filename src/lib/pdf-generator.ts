@@ -289,11 +289,21 @@ export async function generateGradeCardPdf(
         .fontSize(7)
         .font('Helvetica-Oblique')
         .text(
-          'Note: This Grade Card is issued by Sri Sri University ODL Examination Authority. SGPA indicates Semester Grade Point Average. Official transcripts may be requested directly from the University Controller of Examinations office.',
+          'Note: This is a computer-generated Grade Card and is valid without a physical signature. Grades are awarded in accordance with the University\'s Examination Regulations.',
           36,
           doc.y,
-          { width: tableWidth, align: 'justify' }
+          { width: tableWidth, align: 'left' }
         );
+
+      doc.moveDown(0.5);
+      doc
+        .fillColor('#002147')
+        .fontSize(7.5)
+        .font('Helvetica-Bold')
+        .text('For verification, please visit: https://cdoe.srisriuniversity.edu.in or contact CDOE, SSU.', 36, doc.y, {
+          width: tableWidth,
+          align: 'center',
+        });
 
       doc.end();
 

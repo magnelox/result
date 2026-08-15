@@ -12,7 +12,8 @@ services:
       - REDIS_URL=redis://redis:6379
       - JWT_SECRET=ssu_super_secret_admin_jwt_key_2026_change_in_production
       - ADMIN_SESSION_NAME=ssu_admin_session
-      - GRADE_CARD_STORAGE_PATH=/app/storage/grade-cards
+    volumes:
+      - grade_card_storage:/app/storage/grade-cards
     depends_on:
       - postgres
       - redis
@@ -43,3 +44,4 @@ services:
 volumes:
   postgres_data:
   redis_data:
+  grade_card_storage:
