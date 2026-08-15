@@ -97,22 +97,23 @@ export default function StudentLoginPage() {
   return (
     <div className="max-w-2xl mx-auto py-6">
       <div className="bg-white rounded-2xl shadow-xl border border-slate-200/80 overflow-hidden">
-        {/* Official SSU Banner Header */}
-        <div className="bg-ssu-navy p-8 text-white text-center border-b-4 border-ssu-gold relative space-y-3">
-          {/* Prominent Official SSU Logo */}
+        {/* Banner Header with Official SSU Logo */}
+        <div className="bg-ssu-navy p-8 text-white text-center border-b-4 border-ssu-gold space-y-4">
           <div className="flex justify-center my-2">
-            <Image
-              src="/assets/ssu-logo.png"
-              alt="Sri Sri University Official Logo"
-              width={220}
-              height={77}
-              className="object-contain w-[160px] sm:w-[200px] md:w-[220px] h-auto brightness-0 invert"
-              priority
-            />
+            <div className="bg-white px-5 py-2.5 rounded-xl shadow-md inline-block">
+              <Image
+                src="/assets/ssu-logo.png"
+                alt="Sri Sri University Logo"
+                width={260}
+                height={82}
+                className="object-contain w-[200px] sm:w-[240px] h-auto"
+                priority
+              />
+            </div>
           </div>
 
-          <div className="pt-1">
-            <span className="inline-block bg-ssu-navy-light text-ssu-gold text-xs font-bold uppercase tracking-widest px-3.5 py-1 rounded-full border border-ssu-gold/30">
+          <div>
+            <span className="inline-block bg-ssu-navy-light text-ssu-gold-light text-xs font-bold uppercase tracking-widest px-3.5 py-1 rounded-full border border-ssu-gold/30">
               ODL RESULT PORTAL
             </span>
             <h2 className="text-xl sm:text-2xl font-serif font-bold text-white tracking-wide mt-2">
@@ -131,7 +132,7 @@ export default function StudentLoginPage() {
             </div>
             <h3 className="text-lg font-serif font-bold text-ssu-navy">Authenticating student session...</h3>
             <p className="text-sm text-slate-600 max-w-sm mx-auto">
-              Please wait while we verify your credentials and locate your published examination result.
+              Please wait while we verify your credentials and locate your published result.
             </p>
           </div>
         ) : (

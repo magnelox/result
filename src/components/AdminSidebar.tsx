@@ -30,13 +30,13 @@ export function AdminSidebar() {
   return (
     <aside className="w-64 bg-ssu-navy text-white min-h-screen flex flex-col border-r border-ssu-gold/30 shrink-0">
       <div className="p-5 border-b border-ssu-navy-light space-y-2">
-        <div className="relative w-36 h-10 flex items-center">
+        <div className="bg-white px-3 py-1.5 rounded-lg shadow-sm flex items-center h-10 w-44">
           <Image
             src="/assets/ssu-logo.png"
             alt="Sri Sri University Logo"
-            width={144}
+            width={160}
             height={50}
-            className="object-contain w-auto h-full brightness-0 invert"
+            className="object-contain w-auto h-full"
             priority
           />
         </div>

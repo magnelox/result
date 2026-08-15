@@ -43,16 +43,18 @@ export default function AdminLoginPage() {
   return (
     <div className="min-h-screen bg-slate-900 flex items-center justify-center p-4">
       <div className="max-w-md w-full bg-white rounded-2xl shadow-2xl overflow-hidden border border-slate-700">
-        <div className="bg-ssu-navy p-8 text-center border-b-4 border-ssu-gold space-y-3">
+        <div className="bg-ssu-navy p-8 text-center border-b-4 border-ssu-gold space-y-4">
           <div className="flex justify-center my-2">
-            <Image
-              src="/assets/ssu-logo.png"
-              alt="Sri Sri University Logo"
-              width={200}
-              height={70}
-              className="object-contain w-[180px] h-auto brightness-0 invert"
-              priority
-            />
+            <div className="bg-white px-4 py-2 rounded-xl shadow-md inline-block">
+              <Image
+                src="/assets/ssu-logo.png"
+                alt="Sri Sri University Logo"
+                width={200}
+                height={63}
+                className="object-contain w-[180px] h-auto"
+                priority
+              />
+            </div>
           </div>
           <div>
             <h1 className="font-serif font-bold text-lg text-white tracking-wide">
