@@ -55,7 +55,7 @@ export async function generateGradeCardPdf(
       const writeStream = fs.createWriteStream(outputPath);
       doc.pipe(writeStream);
 
-      const navy = '#0B1F3A';
+      const navy = '#672C1C';
       const darkGray = '#172033';
       const borderGray = '#D9E1EC';
       const lightBg = '#F7F9FC';

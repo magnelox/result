@@ -9,12 +9,13 @@ module.exports = {
     extend: {
       colors: {
         ssu: {
-          maroon: '#8B1A1A',
-          'maroon-dark': '#6B1313',
-          'maroon-light': '#A62424',
-          navy: '#0B1F3A',
-          'navy-dark': '#061324',
-          'navy-light': '#142F55',
+          brand: '#672C1C',
+          'brand-dark': '#4D2115',
+          'brand-light': '#803723',
+          navy: '#672C1C', // Using #672C1C for primary headers, navbars & banners
+          'navy-dark': '#4D2115',
+          'navy-light': '#803723',
+          maroon: '#672C1C',
           blue: '#1D4ED8',
           'blue-light': '#EFF6FF',
           bg: '#F7F9FC',
@@ -23,7 +24,7 @@ module.exports = {
           success: '#16803C',
           warning: '#B7791F',
           error: '#C62828',
-          gold: '#8B1A1A', // Using #8B1A1A for primary brand accent/trims
+          gold: '#D4AF37',
           'gold-light': '#F8ECEC',
         },
       },
